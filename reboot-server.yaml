@@ -1,0 +1,7 @@
+---
+- name: Patch Debian Servers
+  hosts: all
+  become: yes
+  tasks:
+    - name: Reboot the server
+      ansible.builtin.reboot:
