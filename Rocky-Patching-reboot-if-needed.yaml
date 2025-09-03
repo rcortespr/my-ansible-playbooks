@@ -31,8 +31,3 @@
       dnf:
         autoremove: yes
         nobest: true
-
-    - name: Clean the package cache
-      ansible.builtin.command: dnf clean all
-      args:
-        warn: false   
