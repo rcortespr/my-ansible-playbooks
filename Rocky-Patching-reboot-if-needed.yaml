@@ -7,12 +7,14 @@
       dnf:
         name: yum-utils
         state: present
+        nobest: true
 
     - name: Update all packages to the latest version
       dnf:
         name: '*'
         state: latest
         update_cache: yes
+        nobest: true
 
     - name: Check if a reboot is required
       command: needs-restarting -r
@@ -28,10 +30,12 @@
     - name: Remove unused dependencies
       dnf:
         autoremove: yes
+        nobest: true
 
     - name: Clean the package cache
       dnf:
         name: '*'
         state: absent
         cacheonly: yes
-        clean: all   
+        clean: all
+        nobest: true   
