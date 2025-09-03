@@ -1,0 +1,37 @@
+---
+- name: Patch Rocky Linux Servers
+  hosts: all
+  become: yes
+  tasks:
+    - name: Ensure yum-utils is installed (provides needs-restarting)
+      dnf:
+        name: yum-utils
+        state: present
+
+    - name: Update all packages to the latest version
+      dnf:
+        name: '*'
+        state: latest
+        update_cache: yes
+
+    - name: Check if a reboot is required
+      command: needs-restarting -r
+      register: reboot_required
+      ignore_errors: yes
+      changed_when: false
+
+    - name: Reboot the server if required
+      reboot:
+        post_reboot_delay: 90
+      when: reboot_required.rc == 1
+
+    - name: Remove unused dependencies
+      dnf:
+        autoremove: yes
+
+    - name: Clean the package cache
+      dnf:
+        name: '*'
+        state: absent
+        cacheonly: yes
+        clean: all   
