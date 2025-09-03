@@ -33,9 +33,6 @@
         nobest: true
 
     - name: Clean the package cache
-      dnf:
-        name: '*'
-        state: absent
-        cacheonly: yes
-        clean: all
-        nobest: true   
+      ansible.builtin.command: dnf clean all
+      args:
+        warn: false   
